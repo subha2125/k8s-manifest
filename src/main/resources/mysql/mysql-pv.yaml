@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-volume
+  name: gcp-volume
 spec:
   capacity:
-    storage: 100Mi
+    storage: 10Gi
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Recycle
-  storageClassName: fast
+  storageClassName: standard
   gcePersistentDisk:
-    ## This GCE PD must already exist.
-    pdName: mysql-data-disk #Before you can use a GCE PD with a Pod, you need to create it.
-    # gcloud compute disks create --size=500GB --zone=us-central1-a my-data-disk
+    ## This GCE PD must already exist.   # gcloud compute disks create --size=500GB --zone=us-central1-a my-data-disk
+    pdName: mastervm
     fsType: ext4

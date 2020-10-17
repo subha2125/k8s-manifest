@@ -21,22 +21,24 @@ spec:
        image: eshghos/kubernetes-secret:latest
        ports:
         - containerPort: 8081
-       volumeMounts:
-       - name: foo
-         mountPath: "/etc/foo"
-       - name: mysecretvolume
-         mountPath: "/etc/secret"
-     volumes:
-     - name: foo
-       secret:
-        secretName: mysql-secret # kubectl exec -it mysecretpod cat /etc/foo/ # Refers metadata.name in secret.yaml
-        defaultMode: 0400
-     - name: mysecretvolume # username secret is stored under /etc/foo/my-group/my-username file instead of /etc/secret/username
-       secret:
-        secretName: mysql-secret
-        defaultMode: 0400
-        items:
-        - key: username
-          path: my-group/my-username # kubectl exec -it mysecretpod cat /etc/secret/my-group/my-username
-        - key: password 
-          path: my-group/my-password # kubectl exec -it mysecretpod cat /etc/secret/my-group/my-password
+       env:   # Setting Enviornmental Variables
+          - name: DB_HOST   # Setting Database host address from configMap
+            valueFrom: 
+              configMapKeyRef:
+                name: db-conf  # name of configMap
+                key: host
+          - name: DB_NAME  # Setting Database name from configMap
+            valueFrom:
+              configMapKeyRef:
+                name: db-conf 
+                key: name
+          - name: DB_USERNAME  # Setting Database username from Secret
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials # Secret Name
+                key: username
+          - name: DB_PASSWORD # Setting Database password from Secret
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials # Secret Name
+                key: password

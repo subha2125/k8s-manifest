@@ -5,8 +5,8 @@ metadata:
 spec:
   accessModes:
    - ReadWriteOnce
-  storageClassName: fast # Refer to storageClassName under spec in persistent-volume.yaml
+  storageClassName: standard
   resources:
     requests:
-      storage: 80Mi # Refer to storage under spec:capacity in persistent-volume.yaml
+      storage: 8Gi
   
