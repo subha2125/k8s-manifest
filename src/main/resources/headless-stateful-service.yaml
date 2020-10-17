@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: headless-stateful
+  labels:
+    app: hello
+spec:
+  serviceName: headless-service
+  replicas: 5
+  selector:
+    matchLabels:
+      app: headless
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: headless
+        tier: web
+      name: headless-pod
+    spec:
+      containers:
+      - name: hello-app
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: "/var/www/html"
+          name: mypd
+      volumes:
+      - name: mypd
+        persistentVolumeClaim:
+          claimName: pvc-claim 
+     

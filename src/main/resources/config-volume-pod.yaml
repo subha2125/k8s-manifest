@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myconfgpod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+    - name: config-volume
+      mountPath: "/etc/config"
+  volumes: # two ways u can provide as shown below
+  - name: foo
+    configMap:
+      name: myConfigMapName
+      items:
+        - key: secret-key   # kubectl exec -it myconfgpod cat /etc/foo/secret-path
+          path: secret-path
+  - name: config-volume
+    configMap:
+        # Provide the name of the ConfigMap containing the files you want
+        # to add to the container
+       name: myConfigMapName
+      

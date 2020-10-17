@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: yellow
+   labels:
+     tier: yellow
+spec:
+  containers:
+   - name: lemom
+     image: busybox
+   - name: gold
+     image: redis
+     
+    

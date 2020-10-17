@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-10-11T05:50:52Z"
+  labels:
+    name: app
+  name: app
+  namespace: elastic-stack
+  resourceVersion: "11048"
+  selfLink: /api/v1/namespaces/elastic-stack/pods/app
+  uid: 65a856af-34e7-44dd-be66-d870b37bfb32
+spec:
+  containers:
+  - image: kodekloud/event-simulator
+    imagePullPolicy: Always
+    name: app
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /log
+      name: log-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-lc6w5
+      readOnly: true
+  - image: kodekloud/filebeat-configured
+    name: sidecar
+    volumeMounts:
+    - mountPath: /var/log/event-simulator/
+      name: log-volume

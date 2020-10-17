@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: readiness-deploy
+  name: readiness-http
+spec:
+  selector:
+    matchLabels:
+      app: readiness
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: readiness
+        tier: web
+      name: readiness-pod
+    spec:
+      containers:
+      - name: readiness
+        image: k8s.gcr.io/busybox
+        args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 60; rm -rf /tmp/healthy; sleep 600
+        livenessProbe:
+         exec:
+          command:
+          - cat
+          - /tmp/healthy
+         initialDelaySeconds: 15
+         periodSeconds: 5
+        readinessProbe:
+         exec:
+          command:
+          - cat
+          - /tmp/healthy
+         initialDelaySeconds: 15
+         periodSeconds: 5

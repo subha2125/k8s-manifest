@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pvc-deployment
+  labels:
+    app: pvcd
+spec:
+  selector:
+    matchLabels:
+      app: pvcd
+      tier: volume
+  template:
+    metadata:
+     labels:
+       app: pvcd
+       tier: volume
+    spec:
+     containers:
+     - name: myfrontend
+       image: nginx
+       volumeMounts:
+        - mountPath: "/var/www/html"
+          name: mypd
+     volumes:
+     - name: mypd
+       persistentVolumeClaim:
+        claimName: pvc-claim # Refer to name under metadata in PersistentVolumeClaim.yaml

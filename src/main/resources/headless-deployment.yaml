@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: headless-deploy
+  labels:
+    app: hello
+spec:
+  selector:
+    matchLabels:
+      app: headless
+      tier: web
+  replicas: 6
+  template:
+    metadata:
+      labels:
+        app: headless
+        tier: web
+      name: headless-pod
+    spec:
+      containers:
+      - name: hello-app
+        image: gcr.io/google-samples/hello-app:1.0
+        ports:
+        - containerPort: 8080
+      subdomain: headless-service  # create all pod with same dns as 'headless-pod.headless-service.default.svc.cluster.local
+      hostname: headless-pod       # pod-name.subdomain.ns.svc.cluster.local
