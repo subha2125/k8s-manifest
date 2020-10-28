@@ -1,0 +1,52 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-goproxy-deployment
+  labels:
+    app: nginx-goproxy
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nginx-goproxy
+      tier: webapp
+  replicas: 3
+  template: 
+    metadata:
+     app: nginx-goproxy
+     tier: webapp
+    spec:
+     containers:
+     - name: nginx
+       image: nginx
+       ports:
+       - containerPort: 80
+       resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+     - name: goproxy
+       image: k8s.gcr.io/goproxy:0.1
+       ports:
+       - containerPort: 8080
+       resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+       readinessProbe:
+        tcpSocket:
+          port: 8080
+        initialDelaySeconds: 5
+        periodSeconds: 10
+       livenessProbe:
+         tcpSocket:
+          port: 8080
+         initialDelaySeconds: 15
+         periodSeconds: 20
