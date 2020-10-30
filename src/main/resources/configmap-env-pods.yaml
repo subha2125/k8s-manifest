@@ -16,4 +16,8 @@ spec:
               name: special-config
               # Specify the key associated with the value
               key: special.how
+      envFrom:
+       configMapRef: # Mount all properties at a go
+         name: special-config
+         
   restartPolicy: Never

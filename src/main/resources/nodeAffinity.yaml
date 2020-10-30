@@ -19,6 +19,9 @@ spec:
             values:
             - e2e-az1
             - e2e-az2
+        - matchExpressions:
+          - key: kubernetes.io/e2e-ab-name
+            operator: Exists # Check only key exixts or not does not check value
       preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 1
         preference:
