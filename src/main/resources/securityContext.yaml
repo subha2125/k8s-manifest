@@ -10,6 +10,7 @@ spec:
     name: nginx
     securityContext: # Apply on Container level, will override the POD securityContext
       runAsUser: 1010
+      runAsGroup: 1010
       capabilities:
         add : ["ADMIN"]
  

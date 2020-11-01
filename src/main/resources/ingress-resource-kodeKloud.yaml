@@ -2,7 +2,12 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: / # Map with /
+    nginx.ingress.kubernetes.io/rewrite-target: / # Map with / to wear and watch service
+    # replace("/wear","/") replace("/watch","/") this resolved to below
+    # http://<wear-service>:<port>  http://<video-service>:<port> 
+    # with rewrite-target as / this will resolved to
+    # http://<wear-service>:<port>/wear  http://<video-service>:<port>/watch and failed with 404
+    
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
   name: ingress-wear-watch
   namespace: app-space

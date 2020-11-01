@@ -1,0 +1,41 @@
+apiVersion: v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Pod
+metadata:
+  name: mydb
+  labels:
+    app: mydb
+spec:
+    containers:
+    - image: mysql:5.7 
+      name: mysql 
+      env:
+      - name: MYSQL_ROOT_PASSWORD 
+        valueFrom:
+          secretKeyRef:
+            name: db-secret 
+            key: MYSQL_ROOT_PASSWORD   
+      - name: MYSQL_PASSWORD 
+        valueFrom:
+          secretKeyRef:
+            name: db-secret 
+            key: MYSQL_PASSWORD
+      - name: MYSQL_PASSWORD # Setting USER Password on mysql From a 'Secret'
+        valueFrom:
+          secretKeyRef:
+            name: db-credentials
+            key: password
+      - name: MYSQL_DATABASE # Setting Database Name from a 'ConfigMap'
+        valueFrom:
+          configMapKeyRef:
+            name: db-config
+            key: MYSQL_DATABASE
+      - name: MYSQL_USER 
+        valueFrom:
+          configMapKeyRef:
+            name: db-config
+            key: MYSQL_USER
+      - name: MYSQL_GRANT_ACCESS # Pseudo Property iject directly
+        value: ALL 
+      ports:
+      - containerPort: 3306
+        name: mysql
