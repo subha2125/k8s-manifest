@@ -6,6 +6,11 @@ metadata:
     tier: backend
 spec:
   replicas: 4
+  strategy:
+      type: RollingUpdate
+      rollingUpdate:
+         maxSurge: 25%
+         maxUnavailable: 25%  
   template:
     metadata:
       name: image-processing-pod
