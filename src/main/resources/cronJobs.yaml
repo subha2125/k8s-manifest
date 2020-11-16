@@ -3,7 +3,8 @@ kind: CronJob
 metadata:
   name: hello
 spec: # Cronjob SPec
-  schedule: "*/1 * * * *"
+  startingDeadlineSeconds: 17 #Terminated if it takes more than 17 seconds to start execution after its schedule
+  schedule: "*/1 * * * *" # Every one minute
   jobTemplate:
     spec: # Job Spec
       template:

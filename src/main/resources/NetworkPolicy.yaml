@@ -4,7 +4,7 @@ metadata:
   name: test-network-policy
   namespace: default
 spec:
-  podSelector:
+  podSelector: # Applicable to this pod
     matchLabels: #Ingress rules allows connections to all pods in the "default" namespace with the label "role=db" on TCP port 6379 from:
       role: db
   policyTypes:
@@ -19,13 +19,16 @@ spec:
     - namespaceSelector:
         matchLabels:
           project: myproject
-    - podSelector:
+    - podSelector: # Applicable from this pod to role:  poddb
         matchLabels:
           role: frontend #any pod in the "default" namespace with the label "role=frontend"
+          # (Ingress rules) allows connections to all pods in the "default" namespace with the label "role=db" on TCP port 6379 
+          # from
+          # any pod in the "default" namespace with the label "role=frontend"
     ports:
-    - protocol: TCP
+    - protocol: TCP # Applied to role: db on port 6379
       port: 6379
-  egress:
+  egress: # Applicable from this pod to role: db pod
   - to:
     - ipBlock:
         cidr: 10.0.0.0/24

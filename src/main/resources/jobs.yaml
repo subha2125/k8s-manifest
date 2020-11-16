@@ -13,3 +13,4 @@ spec:
   backoffLimit: 10 # specify the number of retries before considering a Job as failed
   parallelism: 3 # Specify the parallel pods creation
   completions: 3 # No of total pod creation before complete
+  activeDeadlineSeconds: 30 # Terminated by kubernetes if it takes more than 30 seconds to execute
