@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-salary-deployment
+  labels:
+    app: employee-salary-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: employee-salary-pod
+      tier: salary
+  template:
+   metadata:
+      labels:
+        app: employee-salary-pod
+        tier: salary
+   spec:
+     containers:
+     - name: kubernetes-secret
+       image: eshghos/kubernetes-salary-service:latest
+       ports:
+        - containerPort: 8183
