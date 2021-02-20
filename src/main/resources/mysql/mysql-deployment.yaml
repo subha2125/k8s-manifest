@@ -1,7 +1,7 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: onehrmysql-deploy
+  name: mysql-deploy
   labels:
     app: onehrdeploy
 spec:
@@ -17,6 +17,8 @@ spec:
         app: onehr
         tier: mysql
     spec:
+      #nodeSelector:
+       #accelerator: nvidia-tesla-p100 #Node01
       containers:
       - image: mysql:5.7 # image from docker-hub
         args:
@@ -53,4 +55,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage # Obtaining 'volume' from PVC
         persistentVolumeClaim:
-          claimName: mysql-pvc-claim
+          claimName: mysql-pvc-gce-claim

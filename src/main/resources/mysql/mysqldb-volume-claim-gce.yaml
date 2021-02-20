@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-gce-volume
+  labels:
+    type: local
+spec:
+  storageClassName: pd-standard
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: k8-disk
+    fsType: ext4
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc-gce-claim
+spec:
+  storageClassName: pd-standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi

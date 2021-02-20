@@ -19,6 +19,16 @@ spec:
      containers:
      - name: kubernetes-secret
        image: eshghos/kubernetes-secret:latest
+       readinessProbe:
+        httpGet:
+          path: /getAllEmployee
+          port: 8081
+        initialDelaySeconds: 180
+       livenessProbe:
+        httpGet:
+          path: /getAllEmployee
+          port: 8081
+        initialDelaySeconds: 180
        ports:
         - containerPort: 8081
        env:   # Setting Enviornmental Variables

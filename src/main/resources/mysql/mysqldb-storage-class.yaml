@@ -1,0 +1,24 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gcpstorage
+provisioner: kubernetes.io/gce-pd
+reclaimPolicy: Retain
+parameters:
+  type: pd-standard
+  fstype: ext4
+  replication-type: none
+volumeBindingMode: Immediate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gcp-pvc-claim
+spec:
+  accessModes:
+   - ReadWriteOnce
+  storageClassName: gcpstorage # Refer to metadata.name in storageclass
+  resources:
+    requests:
+      storage: 10Gi
